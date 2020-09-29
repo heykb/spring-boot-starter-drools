@@ -10,7 +10,7 @@ public class DroolsAutoConfiguration {
         return new DroolsConfiguration();
     }
     @Bean
-    public KieBeanPostProcessor kieBeanPostProcessor(DroolsConfiguration droolsConfiguration){
+    public KieBeanPostProcessor kieBeanPostProcessor(){
         return new KieBeanPostProcessor(droolsConfiguration());
     }
 }
