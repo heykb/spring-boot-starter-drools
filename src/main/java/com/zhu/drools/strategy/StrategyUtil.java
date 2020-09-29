@@ -12,6 +12,9 @@ import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.StatelessKieSession;
 
 import java.lang.reflect.Field;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 
 public class StrategyUtil{
 
@@ -23,7 +26,8 @@ public class StrategyUtil{
         if(kJarPath != null){
             kieContainer = KieBeanService.getKieContainer(kJarPath.value());
             if(kJarPath.enableScanner()){
-                KieBeanService.setKieScanner(kieContainer,kJarPath.scannerInterval());
+                Path path = Paths.get(kJarPath.value());
+                KieBeanService.setKieScanner(kieContainer,path.getParent().toString(),kJarPath.scannerInterval());
             }
         }else if(kReleaseId != null){
             ReleaseId releaseId = KieBeanService.getKieServices().newReleaseId(kReleaseId.groupId(), kReleaseId.artifactId(), kReleaseId.version());

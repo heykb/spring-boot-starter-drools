@@ -1,13 +1,16 @@
 package com.zhu.drools.config;
 
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Component;
 
-@Configuration
 public class DroolsAutoConfiguration {
+    @ConfigurationProperties(prefix = "drools")
     @Bean
-    public KieBeanPostProcessor kieBeanPostProcessor(){
-        return new KieBeanPostProcessor();
+    DroolsConfiguration droolsConfiguration(){
+        return new DroolsConfiguration();
+    }
+    @Bean
+    public KieBeanPostProcessor kieBeanPostProcessor(DroolsConfiguration droolsConfiguration){
+        return new KieBeanPostProcessor(droolsConfiguration());
     }
 }

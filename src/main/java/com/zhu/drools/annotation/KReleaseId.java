@@ -14,6 +14,7 @@ public @interface KReleaseId {
     String groupId();
     String artifactId();
     String version();
+    String repId() default "";
     boolean enableScanner() default false;
     long scannerInterval() default 1000L;
 }

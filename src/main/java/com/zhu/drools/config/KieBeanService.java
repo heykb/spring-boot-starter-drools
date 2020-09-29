@@ -13,7 +13,6 @@ import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.StatelessKieSession;
 import org.kie.scanner.KieScannersRegistry;
-import org.springframework.context.annotation.Bean;
 
 import java.lang.reflect.Field;
 import java.util.concurrent.ConcurrentMap;
@@ -22,17 +21,6 @@ import java.util.concurrent.ConcurrentMap;
 public class KieBeanService {
 
     private  static ConcurrentMap<String, KieContainer> kieContainers;
-
-    @Bean
-    public KieServices kieServices(){
-        return KieServices.Factory.get();
-    }
-
-    @Bean
-    public KieContainer kieContainer(){
-        return getKieContainer();
-    }
-
     static {
         Class clazz = getKieServices().getClass();
         try {
