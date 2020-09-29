@@ -35,13 +35,6 @@ public @interface KReleaseId {
     String version();
 
     /**
-     * Rep id string.
-     *
-     * @return the string
-     */
-    String repId() default "";
-
-    /**
      * Enable scanner boolean.
      *
      * @return the boolean
