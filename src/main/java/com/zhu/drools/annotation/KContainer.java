@@ -6,7 +6,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * @author kb
+ * The interface K container.
+ *
+ * @author heykb
  */
 @Target({ElementType.FIELD}) //声明应用在属性上
 @Retention(RetentionPolicy.RUNTIME) //运行期生效

@@ -18,6 +18,10 @@ import java.lang.reflect.Field;
 import java.util.concurrent.ConcurrentMap;
 
 
+/**
+ * The type Kie bean service.
+ * @author heykb
+ */
 public class KieBeanService {
 
     private  static ConcurrentMap<String, KieContainer> kieContainers;
@@ -36,17 +40,33 @@ public class KieBeanService {
     }
 
 
-
+    /**
+     * Get kie services kie services.
+     *
+     * @return the kie services
+     */
     public static KieServices getKieServices(){
         return KieServices.Factory.get();
     }
 
 
+    /**
+     * Get kie containers concurrent map.
+     *
+     * @return the concurrent map
+     */
     static ConcurrentMap<String, KieContainer> getKieContainers(){
         return kieContainers;
     }
 
 
+    /**
+     * Get kie session kie session.
+     *
+     * @param kieContainer the kie container
+     * @param sessionName  the session name
+     * @return the kie session
+     */
     public static KieSession getKieSession(KieContainer kieContainer,String sessionName){
 
         if(StringUtils.isEmpty(sessionName)){
@@ -54,6 +74,14 @@ public class KieBeanService {
         }
         return ((KieContainerImpl)kieContainer).getKieSession(sessionName);
     }
+
+    /**
+     * Get stateless kie session stateless kie session.
+     *
+     * @param kieContainer the kie container
+     * @param sessionName  the session name
+     * @return the stateless kie session
+     */
     public static StatelessKieSession getStatelessKieSession(KieContainer kieContainer,String sessionName){
         if(StringUtils.isEmpty(sessionName)){
             return ((KieContainerImpl)kieContainer).getStatelessKieSession();
@@ -61,6 +89,12 @@ public class KieBeanService {
         return ((KieContainerImpl)kieContainer).getStatelessKieSession(sessionName);
     }
 
+    /**
+     * Get kie container kie container.
+     *
+     * @param releaseId the release id
+     * @return the kie container
+     */
     public static KieContainer getKieContainer(ReleaseId releaseId){
         String kieContainerId = releaseId.toString();
         KieContainer kieContainer = getKieContainers().get(kieContainerId);
@@ -69,6 +103,13 @@ public class KieBeanService {
         }
         return kieContainer;
     }
+
+    /**
+     * Get kie container from kie scanner kie container.
+     *
+     * @param kieScanner the kie scanner
+     * @return the kie container
+     */
     static KieContainer getKieContainerFromKieScanner(KieScanner kieScanner){
         KieContainer kieContainer = null;
         Class<?> searchType = kieScanner.getClass();
@@ -89,6 +130,13 @@ public class KieBeanService {
         }
         return kieContainer;
     }
+
+    /**
+     * Set kie scanner.
+     *
+     * @param kieContainer    the kie container
+     * @param scannerInterval the scanner interval
+     */
     public static void setKieScanner(KieContainer kieContainer,long scannerInterval){
 
         for(KieScanner kScanner: KieScannersRegistry.getAllKieScanners()){
@@ -99,6 +147,14 @@ public class KieBeanService {
         KieScanner kieScanner = getKieServices().newKieScanner(kieContainer);
         kieScanner.start( scannerInterval );
     }
+
+    /**
+     * Set kie scanner.
+     *
+     * @param kieContainer    the kie container
+     * @param kjarPath        the kjar path
+     * @param scannerInterval the scanner interval
+     */
     public static void setKieScanner(KieContainer kieContainer,String kjarPath,long scannerInterval){
 
         for(KieScanner kScanner: KieScannersRegistry.getAllKieScanners()){
@@ -111,6 +167,11 @@ public class KieBeanService {
     }
 
 
+    /**
+     * Get kie container kie container.
+     *
+     * @return the kie container
+     */
     public static KieContainer getKieContainer(){
         String kieContainerId = getKieServices().getRepository().getDefaultReleaseId().toString();
         KieContainer kieContainer = getKieContainers().get(kieContainerId);
@@ -120,6 +181,12 @@ public class KieBeanService {
         return kieContainer;
     }
 
+    /**
+     * Get kie container kie container.
+     *
+     * @param kjarPath the kjar path
+     * @return the kie container
+     */
     public static KieContainer getKieContainer(String kjarPath){
         KieServices kieServices = getKieServices();
         Resource resource = kieServices.getResources().newFileSystemResource(kjarPath);
@@ -128,12 +195,26 @@ public class KieBeanService {
         return kieServices.newKieContainer(releaseId);
     }
 
+    /**
+     * Get kie base kie base.
+     *
+     * @param kieContainer the kie container
+     * @param baseName     the base name
+     * @return the kie base
+     */
     public static KieBase getKieBase(KieContainer kieContainer, String baseName){
         if(StringUtils.isEmpty(baseName)){
             return getKieBase(kieContainer);
         }
         return kieContainer.getKieBase(baseName);
     }
+
+    /**
+     * Get kie base kie base.
+     *
+     * @param kieContainer the kie container
+     * @return the kie base
+     */
     public static  KieBase getKieBase(KieContainer kieContainer){
         return kieContainer.getKieBase();
     }

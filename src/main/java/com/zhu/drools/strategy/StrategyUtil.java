@@ -16,8 +16,18 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 
+/**
+ * The type Strategy util.
+ */
 public class StrategyUtil{
 
+    /**
+     * Generator kie container kie container.
+     *
+     * @param bean  the bean
+     * @param field the field
+     * @return the kie container
+     */
     public static KieContainer generatorKieContainer(Object bean, Field field) {
         field.setAccessible(true);
         KReleaseId kReleaseId = field.getAnnotation(KReleaseId.class);
@@ -40,11 +50,27 @@ public class StrategyUtil{
         }
         return kieContainer;
     }
+
+    /**
+     * Generator kie base kie base.
+     *
+     * @param bean  the bean
+     * @param field the field
+     * @return the kie base
+     */
     public static KieBase generatorKieBase(Object bean, Field field) {
         KieContainer kieContainer = generatorKieContainer(bean,field);
         KBase kBase = field.getAnnotation(KBase.class);
         return KieBeanService.getKieBase(kieContainer,kBase.value());
     }
+
+    /**
+     * Generator kie session object.
+     *
+     * @param bean  the bean
+     * @param field the field
+     * @return the object
+     */
     public static Object generatorKieSession(Object bean, Field field) {
         KieContainer kieContainer = generatorKieContainer(bean,field);
         KSession kSession = field.getAnnotation(KSession.class);

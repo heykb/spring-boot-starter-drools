@@ -6,6 +6,9 @@ import org.kie.api.KieServices;
 
 import java.lang.reflect.Field;
 
+/**
+ * The type Kie services inject strategy.
+ */
 public class KieServicesInjectStrategy implements KieInjectStrategy<KieServices> {
     @Override
     public KieServices generator(Object bean,Field field){

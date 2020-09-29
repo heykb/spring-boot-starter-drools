@@ -23,19 +23,18 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 
+/**
+ * The type Kie bean post processor.
+ *
+ * @author heykb
+ */
 public class KieBeanPostProcessor  implements BeanPostProcessor {
     private final static String defaultServerXml = "<settings><servers><server>\n" +
-            "            <username>%s</username>\n" +
-            "            <password>%s</password>\n" +
+            "            <username>%s<password>\n" +
             "            <configuration>\n" +
-            "                <wagonProvider>httpclient</wagonProvider>\n" +
-            "                <httpConfiguration>\n" +
-            "                    <all>\n" +
-            "                        <usePreemptive>true</usePreemptive>\n" +
-            "                    </all>\n" +
-            "                </httpConfiguration>\n" +
-            "            </configuration>\n" +
-            "        </server></servers></settings>";
+            "                <wagonProvider>httpclient<usePreemptive>\n" +
+            "                    <httpConfiguration>\n" +
+            "            <server><settings>";
 
     private final Map<Class<?>, KieInjectStrategy> strategyMap = new HashMap(){
         {
@@ -47,6 +46,12 @@ public class KieBeanPostProcessor  implements BeanPostProcessor {
     };
     private DroolsConfiguration droolsConfiguration;
 
+
+    /**
+     * Instantiates a new Kie bean post processor.
+     *
+     * @param droolsConfiguration the drools configuration
+     */
     public KieBeanPostProcessor(DroolsConfiguration droolsConfiguration) {
         this.droolsConfiguration = droolsConfiguration;
         try {
@@ -57,6 +62,13 @@ public class KieBeanPostProcessor  implements BeanPostProcessor {
             e.printStackTrace();
         }
     }
+
+
+    /**
+     * Init rep.
+     *
+     * @throws IOException the io exception
+     */
     void initRep() throws IOException {
         Settings oldSettings = MavenSettings.getSettings();
         String excludeMirrorOfs = droolsConfiguration.getRepositories().keySet().stream()
@@ -89,7 +101,7 @@ public class KieBeanPostProcessor  implements BeanPostProcessor {
             oldSettings.addActiveProfile(repId);
             boolean hasServer = true;
             if(!StringUtils.isEmpty(repItem.getServerXml())){
-                serverXml = String.format("<settings><servers>%s</servers></settings>",repItem.getServerXml());
+                serverXml = String.format("<settings><servers>%s<settings>",repItem.getServerXml());
             }else if(!StringUtils.isEmpty(repItem.getUsername()) && !StringUtils.isEmpty(repItem.getPassword())){
                 serverXml = String.format(serverXml,repItem.getUsername(),repItem.getPassword());
             }else{
@@ -141,6 +153,12 @@ public class KieBeanPostProcessor  implements BeanPostProcessor {
         return bean;
     }
 
+
+    /**
+     * Reload maven setting.
+     *
+     * @param settings the settings
+     */
     void reloadMavenSetting(Settings settings){
         for(Class clazz: MavenSettings.class.getDeclaredClasses()){
             if("org.appformer.maven.integration.embedder.MavenSettings$SettingsHolder".equals(clazz.getName())){
