@@ -16,7 +16,7 @@ import java.util.HashMap;
 public class DroolsConfiguration {
     private HashMap<String, RepItem> repositories;
     private Long scannerInterval;
-    private Boolean scannerEnable;
+    private Boolean scannerEnable = false;
 
     /**
      * Gets scanner interval.
