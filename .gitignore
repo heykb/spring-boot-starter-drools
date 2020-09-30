@@ -20,8 +20,10 @@ buildNumber.properties
 out
 gen
 /src/test/
-!/src/main/resources/META-INF/spring.factories
-/src/main/resources/
+
 /src/main/java/com/zhu/drools/ServiceAppApplication.java
 /pom.xml
 /src/main/test/
+/src/main/resources/META-INF/kmodule.xml
+/src/main/resources/rules/
+/src/main/resources/application.yml
