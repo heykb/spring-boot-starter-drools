@@ -1,9 +1,7 @@
 package com.zhu.drools.config;
 
 import org.apache.commons.lang3.StringUtils;
-import org.drools.compiler.compiler.io.memory.MemoryFileSystem;
 import org.drools.compiler.kie.builder.impl.KieContainerImpl;
-import org.drools.compiler.kproject.models.KieModuleModelImpl;
 import org.drools.core.impl.InternalKieContainer;
 import org.kie.api.KieBase;
 import org.kie.api.KieServices;
@@ -17,10 +15,11 @@ import org.kie.scanner.KieScannersRegistry;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
 
-import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.concurrent.ConcurrentMap;
@@ -214,7 +213,8 @@ public class KieBeanService {
      * @return the kie container
      */
     public static KieContainer getKieContainer(String kjarPath){
-        String kieContainerId = "file:"+Base64.getEncoder().encodeToString(kjarPath.getBytes(StandardCharsets.UTF_8));
+        Path path = Paths.get(kjarPath);
+        String kieContainerId = "file:"+path.toString();
         KieContainer kieContainer = getKieContainers().get(kieContainerId);
         if(kieContainer==null){
             KieServices kieServices = getKieServices();
