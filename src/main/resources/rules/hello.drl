@@ -1,0 +1,10 @@
+package rules;
+import com.zhu.facts.HelloFact
+dialect  "java"
+
+rule "hello"
+    when
+        $h:HelloFact()
+    then
+        $h.setMessage("hello!! i am from classpath kie");
+end

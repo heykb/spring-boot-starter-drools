@@ -14,6 +14,10 @@
  
      @KSession
      private KieSession kieSession;
+     
+     // 通过类型判断注入的有状态还是无状态session
+     @KSession
+     private StatelessKieSession statelessKieSession;
 ~~~
 - 从maven仓库指定kjar包注入
 ~~~java

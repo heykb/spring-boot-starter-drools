@@ -19,3 +19,10 @@ buildNumber.properties
 *.iml
 out
 gen
+/src/test/
+/src/main/resources/
+!/src/main/resources/META-INF/spring.factories
+/src/main/java/com/zhu/drools/ServiceAppApplication.java
+/pom.xml
+/.gitignore
+/src/main/test/

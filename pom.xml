@@ -5,19 +5,34 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.zhu</groupId>
-    <artifactId>spring-boot-stater-drools</artifactId>
+    <artifactId>spring-boot-stater-drools-dev</artifactId>
     <version>1.1.0</version>
 
     <properties>
-        <drools.version>7.43.1.Final</drools.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.target>1.8</maven.compiler.target>
         <maven.compiler.source>1.8</maven.compiler.source>
+        <drools.version>7.43.1.Final</drools.version>
     </properties>
     <dependencies>
         <dependency>
+            <groupId>com.zhu</groupId>
+            <artifactId>facts</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-autoconfigure</artifactId>
+            <version>2.1.1.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <version>2.1.1.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
             <version>2.1.1.RELEASE</version>
         </dependency>
         <dependency>
@@ -37,6 +52,21 @@
         </dependency>-->
 
     </dependencies>
+    <repositories>
+        <repository>
+            <id>mvn-repo</id>
+            <url>https://raw.githubusercontent.com/heykb/maven-repository/master/</url>
+            <!--<url>https://gitee.com/bigsheller/maven-repository/raw/master/</url>-->
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </snapshots>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </releases>
+        </repository>
+    </repositories>
     <build>
         <plugins>
             <plugin>
@@ -46,21 +76,7 @@
                     <altDeploymentRepository>internal.repo::default::file:E:\notes\notes\software\apache-maven-3.6.0-bin\maven-repository</altDeploymentRepository>
                 </configuration>
             </plugin>
-            <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-source-plugin</artifactId>
-            <executions>
-                <execution>
-                    <id>attach-sources</id>
-                    <goals>
-                        <goal>jar</goal>
-                    </goals>
-                </execution>
-            </executions>
-        </plugin>
         </plugins>
     </build>
-
-
 
 </project>

@@ -1,0 +1,4 @@
+drools:
+  repositories:
+    githubRep:
+      url: https://raw.githubusercontent.com/heykb/maven-repository/master/
