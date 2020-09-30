@@ -1,7 +1,9 @@
 package com.zhu.drools.config;
 
 import org.apache.commons.lang3.StringUtils;
+import org.drools.compiler.compiler.io.memory.MemoryFileSystem;
 import org.drools.compiler.kie.builder.impl.KieContainerImpl;
+import org.drools.compiler.kproject.models.KieModuleModelImpl;
 import org.drools.core.impl.InternalKieContainer;
 import org.kie.api.KieBase;
 import org.kie.api.KieServices;
@@ -15,9 +17,12 @@ import org.kie.scanner.KieScannersRegistry;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
 
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.concurrent.ConcurrentMap;
 
 
@@ -102,7 +107,7 @@ public class KieBeanService {
         String kieContainerId = releaseId.toString();
         KieContainer kieContainer = getKieContainers().get(kieContainerId);
         if(kieContainer==null){
-            kieContainer = getKieServices().newKieContainer(releaseId.toString(),releaseId);
+            kieContainer = getKieServices().newKieContainer("maven:"+releaseId.toString(),releaseId);
         }
         return kieContainer;
     }
@@ -209,11 +214,16 @@ public class KieBeanService {
      * @return the kie container
      */
     public static KieContainer getKieContainer(String kjarPath){
-        KieServices kieServices = getKieServices();
-        Resource resource = kieServices.getResources().newFileSystemResource(kjarPath);
-        KieModule kieModule = kieServices.getRepository().addKieModule(resource);
-        ReleaseId releaseId = kieModule.getReleaseId();
-        return kieServices.newKieContainer(releaseId);
+        String kieContainerId = "file:"+Base64.getEncoder().encodeToString(kjarPath.getBytes(StandardCharsets.UTF_8));
+        KieContainer kieContainer = getKieContainers().get(kieContainerId);
+        if(kieContainer==null){
+            KieServices kieServices = getKieServices();
+            Resource resource = kieServices.getResources().newFileSystemResource(kjarPath);
+            KieModule kieModule = kieServices.getRepository().addKieModule(resource);
+            ReleaseId releaseId = kieModule.getReleaseId();
+            kieContainer = getKieServices().newKieContainer(kieContainerId,releaseId);
+        }
+        return kieContainer;
     }
 
     /**
