@@ -5,16 +5,19 @@ import org.drools.compiler.kie.builder.impl.KieContainerImpl;
 import org.drools.core.impl.InternalKieContainer;
 import org.kie.api.KieBase;
 import org.kie.api.KieServices;
-import org.kie.api.builder.KieModule;
-import org.kie.api.builder.KieScanner;
-import org.kie.api.builder.ReleaseId;
+import org.kie.api.builder.*;
 import org.kie.api.io.Resource;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.StatelessKieSession;
+import org.kie.internal.io.ResourceFactory;
 import org.kie.scanner.KieScannersRegistry;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import org.springframework.core.io.support.ResourcePatternResolver;
 
+import java.io.IOException;
 import java.lang.reflect.Field;
+import java.util.Arrays;
 import java.util.concurrent.ConcurrentMap;
 
 
@@ -162,24 +165,42 @@ public class KieBeanService {
                 return;
             }
         }
-        KieScanner   kieScanner = getKieServices().newKieScanner(kieContainer,kjarPath);
+        KieScanner kieScanner = getKieServices().newKieScanner(kieContainer,kjarPath);
         kieScanner.start( scannerInterval );
     }
 
+    public static KieContainer getKieContainer(){
 
+       return getKieServices().getKieClasspathContainer(Thread.currentThread().getContextClassLoader());
+    }
     /**
      * Get kie container kie container.
      *
      * @return the kie container
      */
-    public static KieContainer getKieContainer(){
+    public static KieContainer getKieContainerByRules(){
+        String RULES_PATH = "rules/";
         String kieContainerId = getKieServices().getRepository().getDefaultReleaseId().toString();
         KieContainer kieContainer = getKieContainers().get(kieContainerId);
         if(kieContainer==null){
-            kieContainer = getKieServices().newKieClasspathContainer(kieContainerId);
+            KieFileSystem kfs = getKieServices().newKieFileSystem();
+            ResourcePatternResolver resourcePatternResolver = new PathMatchingResourcePatternResolver();
+            try {
+                org.springframework.core.io.Resource[] resources = resourcePatternResolver.getResources("classpath*:" + RULES_PATH + "**/*.*");
+                Arrays.stream(resources).forEach(resource ->kfs.write(ResourceFactory.newClassPathResource(RULES_PATH + resource.getFilename(), "UTF-8")) );
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            KieBuilder kieBuilder = getKieServices().newKieBuilder( kfs ).buildAll();
+            if (kieBuilder.getResults().hasMessages(Message.Level.ERROR)) {
+                throw new RuntimeException("Build Errors:\n" + kieBuilder.getResults().toString());
+            }
+            kieContainer = getKieServices().newKieContainer(kieContainerId,getKieServices().getRepository().getDefaultReleaseId());
+
         }
         return kieContainer;
     }
+
 
     /**
      * Get kie container kie container.

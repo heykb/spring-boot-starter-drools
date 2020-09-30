@@ -1,20 +1,26 @@
 package com.zhu.drools.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 
 /**
  * The type Drools auto configuration.
+ * @author heykb
  */
+@Configuration
 public class DroolsAutoConfiguration {
+
     /**
      * Drools configuration drools configuration.
      *
      * @return the drools configuration
+     *
      */
-    @ConfigurationProperties(prefix = "drools")
     @Bean
+    @ConfigurationProperties(prefix = "drools")
     DroolsConfiguration droolsConfiguration(){
         return new DroolsConfiguration();
     }
