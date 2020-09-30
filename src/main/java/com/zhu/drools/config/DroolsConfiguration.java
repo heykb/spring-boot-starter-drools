@@ -10,12 +10,49 @@ import java.util.HashMap;
 
 /**
  * The type Drools configuration.
+ *
  * @author heykb
  */
-
-
 public class DroolsConfiguration {
     private HashMap<String, RepItem> repositories;
+    private Long scannerInterval;
+    private Boolean scannerEnable;
+
+    /**
+     * Gets scanner interval.
+     *
+     * @return the scanner interval
+     */
+    public Long getScannerInterval() {
+        return scannerInterval;
+    }
+
+    /**
+     * Sets scanner interval.
+     *
+     * @param scannerInterval the scanner interval
+     */
+    public void setScannerInterval(Long scannerInterval) {
+        this.scannerInterval = scannerInterval;
+    }
+
+    /**
+     * Gets scanner enable.
+     *
+     * @return the scanner enable
+     */
+    public Boolean getScannerEnable() {
+        return scannerEnable;
+    }
+
+    /**
+     * Sets scanner enable.
+     *
+     * @param scannerEnable the scanner enable
+     */
+    public void setScannerEnable(Boolean scannerEnable) {
+        this.scannerEnable = scannerEnable;
+    }
 
     /**
      * Gets repositories.

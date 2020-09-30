@@ -131,19 +131,19 @@ public class KieBeanPostProcessor  implements BeanPostProcessor {
                 KieInjectStrategy strategy = null;
                 if(field.isAnnotationPresent(KContainer.class)){
                     strategy = strategyMap.get(KContainer.class);
-                    field.set(bean,strategy.generator(bean,field));
+                    field.set(bean,strategy.generator(bean,field,droolsConfiguration));
                 }
                 if(field.isAnnotationPresent(KBase.class)){
                     strategy = strategyMap.get(KBase.class);
-                    field.set(bean,strategy.generator(bean,field));
+                    field.set(bean,strategy.generator(bean,field,droolsConfiguration));
                 }
                 if(field.isAnnotationPresent(KSession.class)){
                     strategy = strategyMap.get(KSession.class);
-                    field.set(bean,strategy.generator(bean,field));
+                    field.set(bean,strategy.generator(bean,field,droolsConfiguration));
                 }
                 if(field.isAnnotationPresent(KServices.class)){
                     strategy = strategyMap.get(KServices.class);
-                    field.set(bean,strategy.generator(bean,field));
+                    field.set(bean,strategy.generator(bean,field,droolsConfiguration));
                 }
 
             }

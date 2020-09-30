@@ -32,5 +32,5 @@ public @interface KJarPath {
      *
      * @return the long
      */
-    long scannerInterval() default 1000L;
+    long scannerInterval() default 10000L;
 }

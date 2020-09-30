@@ -5,6 +5,7 @@ import com.zhu.drools.annotation.KBase;
 import com.zhu.drools.annotation.KJarPath;
 import com.zhu.drools.annotation.KReleaseId;
 import com.zhu.drools.annotation.KSession;
+import com.zhu.drools.config.DroolsConfiguration;
 import com.zhu.drools.config.KieBeanService;
 import org.kie.api.KieBase;
 import org.kie.api.builder.ReleaseId;
@@ -18,6 +19,7 @@ import java.nio.file.Paths;
 
 /**
  * The type Strategy util.
+ * @author heykb
  */
 public class StrategyUtil{
 
@@ -28,7 +30,7 @@ public class StrategyUtil{
      * @param field the field
      * @return the kie container
      */
-    public static KieContainer generatorKieContainer(Object bean, Field field) {
+    public static KieContainer generatorKieContainer(Object bean, Field field, DroolsConfiguration droolsConfiguration) {
         field.setAccessible(true);
         KReleaseId kReleaseId = field.getAnnotation(KReleaseId.class);
         KJarPath kJarPath = field.getAnnotation(KJarPath.class);
@@ -42,8 +44,9 @@ public class StrategyUtil{
         }else if(kReleaseId != null){
             ReleaseId releaseId = KieBeanService.getKieServices().newReleaseId(kReleaseId.groupId(), kReleaseId.artifactId(), kReleaseId.version());
             kieContainer = KieBeanService.getKieContainer(releaseId);
-            if(kReleaseId.enableScanner()){
-                KieBeanService.setKieScanner(kieContainer,kReleaseId.scannerInterval());
+            if(droolsConfiguration.getScannerEnable()||kReleaseId.enableScanner()){
+                long scannerInterval = droolsConfiguration.getScannerInterval()!=null?droolsConfiguration.getScannerInterval():kReleaseId.scannerInterval();
+                KieBeanService.setKieScanner(kieContainer,scannerInterval);
             }
         }else{
             kieContainer =  KieBeanService.getKieContainer();
@@ -58,8 +61,8 @@ public class StrategyUtil{
      * @param field the field
      * @return the kie base
      */
-    public static KieBase generatorKieBase(Object bean, Field field) {
-        KieContainer kieContainer = generatorKieContainer(bean,field);
+    public static KieBase generatorKieBase(Object bean, Field field,DroolsConfiguration droolsConfiguration) {
+        KieContainer kieContainer = generatorKieContainer(bean,field,droolsConfiguration);
         KBase kBase = field.getAnnotation(KBase.class);
         return KieBeanService.getKieBase(kieContainer,kBase.value());
     }
@@ -71,8 +74,8 @@ public class StrategyUtil{
      * @param field the field
      * @return the object
      */
-    public static Object generatorKieSession(Object bean, Field field) {
-        KieContainer kieContainer = generatorKieContainer(bean,field);
+    public static Object generatorKieSession(Object bean, Field field,DroolsConfiguration droolsConfiguration) {
+        KieContainer kieContainer = generatorKieContainer(bean,field,droolsConfiguration);
         KSession kSession = field.getAnnotation(KSession.class);
         if(bean instanceof StatelessKieSession){
             return KieBeanService.getStatelessKieSession(kieContainer,kSession.value());
