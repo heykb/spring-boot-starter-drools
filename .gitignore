@@ -24,5 +24,4 @@ gen
 !/src/main/resources/META-INF/spring.factories
 /src/main/java/com/zhu/drools/ServiceAppApplication.java
 /pom.xml
-/.gitignore
 /src/main/test/
