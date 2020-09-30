@@ -18,3 +18,10 @@ buildNumber.properties
 *.iml
 out
 gen
+/src/test/
+
+/src/main/java/com/zhu/drools/ServiceAppApplication.java
+/src/main/test/
+/src/main/resources/META-INF/kmodule.xml
+/src/main/resources/rules/
+/src/main/resources/application.yml
