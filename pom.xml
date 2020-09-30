@@ -26,15 +26,26 @@
             <version>${drools.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.drools</groupId>
-            <artifactId>drools-core</artifactId>
-            <version>${drools.version}</version>
+            <groupId>com.thoughtworks.xstream</groupId>
+            <artifactId>xstream</artifactId>
+            <version>1.4.13</version>
         </dependency>
-        <!--<dependency>
+        <dependency>
+            <groupId>org.kie</groupId>
+            <artifactId>kie-ci</artifactId>
+            <version>${drools.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.thoughtworks.xstream</groupId>
+                    <artifactId>xstream</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
             <groupId>org.kie</groupId>
             <artifactId>kie-api</artifactId>
             <version>${drools.version}</version>
-        </dependency>-->
+        </dependency>
 
     </dependencies>
     <build>
