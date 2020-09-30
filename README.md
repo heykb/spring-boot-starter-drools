@@ -51,4 +51,6 @@
 - ***所有注入的kiebean针对同一个源都是单例以节省开销加快速度***
 - ***除了从classPath获取之外，maven和本地文件系统都支持并行版本控制动态更新规则***
 
+简单测试使用案例：[spring-boot-starter-drools-test](https://github.com/heykb/spring-boot-starter-drools-test)
+
 
