@@ -103,10 +103,10 @@ public class KieBeanService {
      * @return the kie container
      */
     public static KieContainer getKieContainer(ReleaseId releaseId){
-        String kieContainerId = releaseId.toString();
+        String kieContainerId = "maven:"+releaseId.toString();
         KieContainer kieContainer = getKieContainers().get(kieContainerId);
         if(kieContainer==null){
-            kieContainer = getKieServices().newKieContainer("maven:"+releaseId.toString(),releaseId);
+            kieContainer = getKieServices().newKieContainer(kieContainerId,releaseId);
         }
         return kieContainer;
     }
